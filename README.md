@@ -64,8 +64,15 @@ The chatbot can now handle diverse tasks across multiple domains:
 ### Research & Academic
 ```
 📝 Query: Search for papers about machine learning transformers
-📝 Query: Extract information from the latest AI research
-📝 Query: Find papers by a specific author
+📝 Query: Extract information from paper ID 2301.07041
+📝 Query: Find recent papers on quantum computing
+```
+
+### Web Content & Information Fetching
+```
+📝 Query: Fetch the content from https://arxiv.org/abs/2301.07041
+📝 Query: Get the latest news from a technology website
+📝 Query: Fetch and summarize content from a research blog
 ```
 
 ### File Operations
@@ -73,20 +80,14 @@ The chatbot can now handle diverse tasks across multiple domains:
 📝 Query: Read the contents of my project README
 📝 Query: Create a summary document from these files
 📝 Query: List all Python files in the current directory
+📝 Query: Show me the directory structure of my project
 ```
 
-### Web Search & Information
+### Combined Operations
 ```
-📝 Query: What are the latest developments in quantum computing?
-📝 Query: Find current news about AI regulations
-📝 Query: Search for information about climate change solutions
-```
-
-### Database Operations
-```
-📝 Query: Show me the schema of the users table
-📝 Query: Find all records where status is 'active'
-📝 Query: Create a report from the sales data
+📝 Query: Search for AI papers, fetch their abstracts, and save to a file
+📝 Query: Read my research notes and find related papers on arXiv
+📝 Query: Fetch web content and save it to a local file for analysis
 ```
 
 ### Commands
@@ -131,17 +132,27 @@ Create a `server_config.json` file to define your MCP servers:
       "args": ["/path/to/research-mcp-server/research_server.py"],
       "env": null
     },
-    "filesystem-server": {
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"],
+      "env": null
+    },
+    "filesystem": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem", "/allowed/directory"],
       "env": null
     },
-    "brave-search": {
+    "web-search": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-brave-search"],
       "env": {
         "BRAVE_API_KEY": "your-api-key-here"
       }
+    },
+    "database": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sqlite", "/path/to/database.db"],
+      "env": null
     }
   }
 }
@@ -151,13 +162,34 @@ Create a `server_config.json` file to define your MCP servers:
 
 Popular MCP servers you can integrate:
 
-- **Research Server** - Academic paper search and analysis
-- **Filesystem Server** - File and directory operations
-- **Brave Search** - Web search capabilities
-- **SQLite Server** - Database query and management
+- **Research Server** - Academic paper search and analysis (custom implementation)
+- **Fetch Server** - Web content fetching and HTTP requests (`uvx mcp-server-fetch`)
+- **Filesystem Server** - File and directory operations (`npx @modelcontextprotocol/server-filesystem`)
+- **Brave Search** - Web search capabilities (`npx @modelcontextprotocol/server-brave-search`)
+- **SQLite Server** - Database query and management (`npx @modelcontextprotocol/server-sqlite`)
 - **Git Server** - Git repository operations
 - **Slack Server** - Slack integration and messaging
 - **Google Drive Server** - Google Drive file access
+
+### Current Working Configuration
+
+The project includes a working configuration with these servers:
+
+1. **Research Server** (2 tools)
+   - `search_papers` - Search arXiv papers by topic
+   - `extract_info` - Extract information about specific papers
+
+2. **Fetch Server** (1 tool)
+   - `fetch` - Fetch web content and convert to markdown
+
+3. **Filesystem Server** (11 tools)
+   - `read_file`, `write_file`, `edit_file` - File operations
+   - `list_directory`, `directory_tree` - Directory browsing
+   - `create_directory`, `move_file` - File management
+   - `search_files`, `get_file_info` - File discovery
+   - `read_multiple_files`, `list_allowed_directories` - Batch operations
+
+**Total: 14 tools available across 3 servers**
 
 ### Environment Variables
 

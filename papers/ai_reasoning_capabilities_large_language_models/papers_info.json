@@ -1,0 +1,61 @@
+{
+  "2302.07926v1": {
+    "title": "Commonsense Reasoning for Conversational AI: A Survey of the State of the Art",
+    "authors": [
+      "Christopher Richardson",
+      "Larry Heck"
+    ],
+    "summary": "Large, transformer-based pretrained language models like BERT, GPT, and T5\nhave demonstrated a deep understanding of contextual semantics and language\nsyntax. Their success has enabled significant advances in conversational AI,\nincluding the development of open-dialogue systems capable of coherent, salient\nconversations which can answer questions, chat casually, and complete tasks.\nHowever, state-of-the-art models still struggle with tasks that involve higher\nlevels of reasoning - including commonsense reasoning that humans find trivial.\nThis paper presents a survey of recent conversational AI research focused on\ncommonsense reasoning. The paper lists relevant training datasets and describes\nthe primary approaches to include commonsense in conversational AI. The paper\nalso discusses benchmarks used for evaluating commonsense in conversational AI\nproblems. Finally, the paper presents preliminary observations of the limited\ncommonsense capabilities of two state-of-the-art open dialogue models,\nBlenderBot3 and LaMDA, and its negative effect on natural interactions. These\nobservations further motivate research on commonsense reasoning in\nconversational AI.",
+    "pdf_url": "http://arxiv.org/pdf/2302.07926v1",
+    "published": "2023-02-15"
+  },
+  "2503.10814v1": {
+    "title": "Thinking Machines: A Survey of LLM based Reasoning Strategies",
+    "authors": [
+      "Dibyanayan Bandyopadhyay",
+      "Soham Bhattacharjee",
+      "Asif Ekbal"
+    ],
+    "summary": "Large Language Models (LLMs) are highly proficient in language-based tasks.\nTheir language capabilities have positioned them at the forefront of the future\nAGI (Artificial General Intelligence) race. However, on closer inspection,\nValmeekam et al. (2024); Zecevic et al. (2023); Wu et al. (2024) highlight a\nsignificant gap between their language proficiency and reasoning abilities.\nReasoning in LLMs and Vision Language Models (VLMs) aims to bridge this gap by\nenabling these models to think and re-evaluate their actions and responses.\nReasoning is an essential capability for complex problem-solving and a\nnecessary step toward establishing trust in Artificial Intelligence (AI). This\nwill make AI suitable for deployment in sensitive domains, such as healthcare,\nbanking, law, defense, security etc. In recent times, with the advent of\npowerful reasoning models like OpenAI O1 and DeepSeek R1, reasoning endowment\nhas become a critical research topic in LLMs. In this paper, we provide a\ndetailed overview and comparison of existing reasoning techniques and present a\nsystematic survey of reasoning-imbued language models. We also study current\nchallenges and present our findings.",
+    "pdf_url": "http://arxiv.org/pdf/2503.10814v1",
+    "published": "2025-03-13"
+  },
+  "2505.01539v1": {
+    "title": "Parameterized Argumentation-based Reasoning Tasks for Benchmarking Generative Language Models",
+    "authors": [
+      "Cor Steging",
+      "Silja Renooij",
+      "Bart Verheij"
+    ],
+    "summary": "Generative large language models as tools in the legal domain have the\npotential to improve the justice system. However, the reasoning behavior of\ncurrent generative models is brittle and poorly understood, hence cannot be\nresponsibly applied in the domains of law and evidence. In this paper, we\nintroduce an approach for creating benchmarks that can be used to evaluate the\nreasoning capabilities of generative language models. These benchmarks are\ndynamically varied, scalable in their complexity, and have formally unambiguous\ninterpretations. In this study, we illustrate the approach on the basis of\nwitness testimony, focusing on the underlying argument attack structure. We\ndynamically generate both linear and non-linear argument attack graphs of\nvarying complexity and translate these into reasoning puzzles about witness\ntestimony expressed in natural language. We show that state-of-the-art large\nlanguage models often fail in these reasoning puzzles, already at low\ncomplexity. Obvious mistakes are made by the models, and their inconsistent\nperformance indicates that their reasoning capabilities are brittle.\nFurthermore, at higher complexity, even state-of-the-art models specifically\npresented for reasoning capabilities make mistakes. We show the viability of\nusing a parametrized benchmark with varying complexity to evaluate the\nreasoning capabilities of generative language models. As such, the findings\ncontribute to a better understanding of the limitations of the reasoning\ncapabilities of generative models, which is essential when designing\nresponsible AI systems in the legal domain.",
+    "pdf_url": "http://arxiv.org/pdf/2505.01539v1",
+    "published": "2025-05-02"
+  },
+  "2403.15137v1": {
+    "title": "CACA Agent: Capability Collaboration based AI Agent",
+    "authors": [
+      "Peng Xu",
+      "Haoran Wang",
+      "Chuang Wang",
+      "Xu Liu"
+    ],
+    "summary": "As AI Agents based on Large Language Models (LLMs) have shown potential in\npractical applications across various fields, how to quickly deploy an AI agent\nand how to conveniently expand the application scenario of AI agents has become\na challenge. Previous studies mainly focused on implementing all the reasoning\ncapabilities of AI agents within a single LLM, which often makes the model more\ncomplex and also reduces the extensibility of AI agent functionality. In this\npaper, we propose CACA Agent (Capability Collaboration based AI Agent), using\nan open architecture inspired by service computing. CACA Agent integrates a set\nof collaborative capabilities to implement AI Agents, not only reducing the\ndependence on a single LLM, but also enhancing the extensibility of both the\nplanning abilities and the tools available to AI agents. Utilizing the proposed\nsystem, we present a demo to illustrate the operation and the application\nscenario extension of CACA Agent.",
+    "pdf_url": "http://arxiv.org/pdf/2403.15137v1",
+    "published": "2024-03-22"
+  },
+  "2502.09100v1": {
+    "title": "Logical Reasoning in Large Language Models: A Survey",
+    "authors": [
+      "Hanmeng Liu",
+      "Zhizhang Fu",
+      "Mengru Ding",
+      "Ruoxi Ning",
+      "Chaoli Zhang",
+      "Xiaozhang Liu",
+      "Yue Zhang"
+    ],
+    "summary": "With the emergence of advanced reasoning models like OpenAI o3 and\nDeepSeek-R1, large language models (LLMs) have demonstrated remarkable\nreasoning capabilities. However, their ability to perform rigorous logical\nreasoning remains an open question. This survey synthesizes recent advancements\nin logical reasoning within LLMs, a critical area of AI research. It outlines\nthe scope of logical reasoning in LLMs, its theoretical foundations, and the\nbenchmarks used to evaluate reasoning proficiency. We analyze existing\ncapabilities across different reasoning paradigms - deductive, inductive,\nabductive, and analogical - and assess strategies to enhance reasoning\nperformance, including data-centric tuning, reinforcement learning, decoding\nstrategies, and neuro-symbolic approaches. The review concludes with future\ndirections, emphasizing the need for further exploration to strengthen logical\nreasoning in AI systems.",
+    "pdf_url": "http://arxiv.org/pdf/2502.09100v1",
+    "published": "2025-02-13"
+  }
+}
