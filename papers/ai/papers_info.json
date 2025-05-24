@@ -1,0 +1,20 @@
+{
+  "2409.12922v1": {
+    "title": "AI Thinking: A framework for rethinking artificial intelligence in practice",
+    "authors": [
+      "Denis Newman-Griffis"
+    ],
+    "summary": "Artificial intelligence is transforming the way we work with information\nacross disciplines and practical contexts. A growing range of disciplines are\nnow involved in studying, developing, and assessing the use of AI in practice,\nbut these disciplines often employ conflicting understandings of what AI is and\nwhat is involved in its use. New, interdisciplinary approaches are needed to\nbridge competing conceptualisations of AI in practice and help shape the future\nof AI use. I propose a novel conceptual framework called AI Thinking, which\nmodels key decisions and considerations involved in AI use across disciplinary\nperspectives. The AI Thinking model addresses five practice-based competencies\ninvolved in applying AI in context: motivating AI use in information processes,\nformulating AI methods, assessing available tools and technologies, selecting\nappropriate data, and situating AI in the sociotechnical contexts it is used\nin. A hypothetical case study is provided to illustrate the application of AI\nThinking in practice. This article situates AI Thinking in broader\ncross-disciplinary discourses of AI, including its connections to ongoing\ndiscussions around AI literacy and AI-driven innovation. AI Thinking can help\nto bridge divides between academic disciplines and diverse contexts of AI use,\nand to reshape the future of AI in practice.",
+    "pdf_url": "http://arxiv.org/pdf/2409.12922v1",
+    "published": "2024-08-26"
+  },
+  "2406.11563v3": {
+    "title": "Intersymbolic AI: Interlinking Symbolic AI and Subsymbolic AI",
+    "authors": [
+      "Andr\u00e9 Platzer"
+    ],
+    "summary": "This perspective piece calls for the study of the new field of Intersymbolic\nAI, by which we mean the combination of symbolic AI, whose building blocks have\ninherent significance/meaning, with subsymbolic AI, whose entirety creates\nsignificance/effect despite the fact that individual building blocks escape\nmeaning. Canonical kinds of symbolic AI are logic, games and planning.\nCanonical kinds of subsymbolic AI are (un)supervised machine and reinforcement\nlearning. Intersymbolic AI interlinks the worlds of symbolic AI with its\ncompositional symbolic significance and meaning and of subsymbolic AI with its\nsummative significance or effect to enable culminations of insights from both\nworlds by going between and across symbolic AI insights with subsymbolic AI\ntechniques that are being helped by symbolic AI principles. For example,\nIntersymbolic AI may start with symbolic AI to understand a dynamic system,\ncontinue with subsymbolic AI to learn its control, and end with symbolic AI to\nsafely use the outcome of the learned subsymbolic AI controller in the dynamic\nsystem. The way Intersymbolic AI combines both symbolic and subsymbolic AI to\nincrease the effectiveness of AI compared to either kind of AI alone is likened\nto the way that the combination of both conscious and subconscious thought\nincreases the effectiveness of human thought compared to either kind of thought\nalone. Some successful contributions to the Intersymbolic AI paradigm are\nsurveyed here but many more are considered possible by advancing Intersymbolic\nAI.",
+    "pdf_url": "http://arxiv.org/pdf/2406.11563v3",
+    "published": "2024-06-17"
+  }
+}

@@ -1,0 +1,15 @@
+[project]
+name = "research-mcp-client"
+version = "0.1.0"
+description = "MCP Client for Research Paper Analysis"
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic>=0.40.0",
+    "mcp>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "nest-asyncio>=1.6.0",
+    "arxiv>=2.2.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."] 
