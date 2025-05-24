@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "research-server": {
+      "command": "python",
+      "args": ["/path/to/research-mcp-server/research_server.py"],
+      "env": null
+    },
+    "filesystem-server": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/allowed/directory"],
+      "env": null
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "your-brave-api-key-here"
+      }
+    },
+    "sqlite-server": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sqlite", "/path/to/database.db"],
+      "env": null
+    }
+  }
+} 

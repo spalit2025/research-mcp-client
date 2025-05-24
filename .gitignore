@@ -1,6 +1,9 @@
 # Environment variables
 .env
 
+# Server configuration (keep example, ignore personal config)
+server_config.json
+
 # Python
 __pycache__/
 *.py[cod]

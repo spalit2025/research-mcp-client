@@ -1,26 +1,31 @@
-# 🤖 AI Research Assistant
+# 🤖 Multi-Server AI Assistant
 
-A Claude AI chatbot with MCP (Model Context Protocol) integration for intelligent paper search, analysis, and academic discovery.
+A Claude AI chatbot with advanced MCP (Model Context Protocol) integration that connects to multiple servers simultaneously for enhanced research, analysis, and productivity capabilities.
 
 ## ✨ Features
 
 - 🤖 **Interactive Chat Interface** - Natural conversation with Claude AI
-- 🔧 **MCP Integration** - Seamless connection to research server tools
-- 📚 **Paper Search & Analysis** - Search arXiv and analyze research papers
-- 🎯 **Tool-based Responses** - Enhanced capabilities through MCP tools
-- ⚡ **Async Performance** - Fast, responsive interactions
-- 🛡️ **Error Handling** - Robust error management and user feedback
+- 🔧 **Multi-Server MCP Integration** - Connect to multiple MCP servers simultaneously
+- 📚 **Research & Analysis** - Search arXiv, analyze papers, and access academic resources
+- 🗂️ **File System Access** - Read, write, and manage files through MCP servers
+- 🌐 **Web Search** - Access real-time information through search APIs
+- 🗄️ **Database Operations** - Query and manage databases via MCP tools
+- 🎯 **Intelligent Tool Selection** - Claude automatically chooses the best tools for each task
+- ⚡ **Async Performance** - Fast, responsive interactions across all servers
+- 🛡️ **Robust Error Handling** - Graceful handling of server failures and tool errors
+- 🔄 **Dynamic Configuration** - Easy server management through JSON configuration
 
 ## 🔗 Related Projects
 
-- [research-mcp-server](https://github.com/spalit2025/research-mcp-server) - The MCP server that provides research tools for this client
+- [research-mcp-server](https://github.com/spalit2025/research-mcp-server) - Academic research tools for arXiv integration
+- [MCP Official Servers](https://github.com/modelcontextprotocol) - Collection of official MCP server implementations
 
 ## 📋 Prerequisites
 
 - **Python 3.10+**
 - **UV package manager** ([Installation guide](https://docs.astral.sh/uv/getting-started/installation/))
 - **Anthropic API key** ([Get one here](https://console.anthropic.com/))
-- **Access to research MCP server** - Clone and set up [research-mcp-server](https://github.com/spalit2025/research-mcp-server)
+- **One or more MCP servers** - See [Configuration](#-configuration) for setup options
 
 ## 🚀 Quick Start
 
@@ -41,9 +46,11 @@ cp .env.example .env
 # Edit .env and add your ANTHROPIC_API_KEY
 ```
 
-### 4. Set Up the Research Server
-Make sure you have the research server running. Follow the setup instructions at:
-[research-mcp-server](https://github.com/spalit2025/research-mcp-server)
+### 4. Configure MCP Servers
+```bash
+cp server_config.example.json server_config.json
+# Edit server_config.json to configure your MCP servers
+```
 
 ### 5. Run the Chatbot
 ```bash
@@ -52,17 +59,38 @@ uv run mcp_chatbot.py
 
 ## 💬 Usage Examples
 
-Once the chatbot is running, try these queries:
+The chatbot can now handle diverse tasks across multiple domains:
 
+### Research & Academic
 ```
-📝 Query: Search for papers about machine learning
-📝 Query: Find research on neural networks and transformers
-📝 Query: Extract information from paper_1
-📝 Query: What are the latest developments in AI?
+📝 Query: Search for papers about machine learning transformers
+📝 Query: Extract information from the latest AI research
+📝 Query: Find papers by a specific author
+```
+
+### File Operations
+```
+📝 Query: Read the contents of my project README
+📝 Query: Create a summary document from these files
+📝 Query: List all Python files in the current directory
+```
+
+### Web Search & Information
+```
+📝 Query: What are the latest developments in quantum computing?
+📝 Query: Find current news about AI regulations
+📝 Query: Search for information about climate change solutions
+```
+
+### Database Operations
+```
+📝 Query: Show me the schema of the users table
+📝 Query: Find all records where status is 'active'
+📝 Query: Create a report from the sales data
 ```
 
 ### Commands
-- Type your research queries naturally
+- Type your queries naturally - Claude will choose the appropriate tools
 - Use `quit`, `exit`, or `q` to exit
 - Press `Ctrl+C` to interrupt
 
@@ -70,64 +98,109 @@ Once the chatbot is running, try these queries:
 
 ```
 research-mcp-client/
-├── mcp_chatbot.py      # Main chatbot application
-├── pyproject.toml      # Project dependencies
-├── .env.example        # Environment variables template
-├── .env                # Your API key (create from .env.example)
-├── README.md           # This file
-└── .venv/              # Virtual environment (created by uv)
+├── mcp_chatbot.py              # Main multi-server chatbot application
+├── server_config.json          # Your MCP server configurations
+├── server_config.example.json  # Example server configurations
+├── pyproject.toml              # Project dependencies
+├── .env.example                # Environment variables template
+├── .env                        # Your API key (create from .env.example)
+├── README.md                   # This file
+└── .venv/                      # Virtual environment (created by uv)
 ```
 
 ## 🔧 How It Works
 
-1. **Connection** - The chatbot connects to your MCP research server using stdio communication
-2. **Tool Discovery** - Automatically discovers available tools from the server
-3. **Query Processing** - User queries are processed by Claude AI with access to MCP tools
-4. **Tool Execution** - When Claude decides to use a tool, it's executed on the MCP server
-5. **Response Integration** - Results are seamlessly integrated back into the conversation
+1. **Configuration Loading** - Reads server configurations from `server_config.json`
+2. **Multi-Server Connection** - Establishes connections to all configured MCP servers
+3. **Tool Discovery** - Automatically discovers and aggregates tools from all servers
+4. **Query Processing** - User queries are processed by Claude AI with access to all available tools
+5. **Intelligent Routing** - Claude selects the appropriate server and tool for each task
+6. **Response Integration** - Results from multiple tools are seamlessly integrated into responses
 
 ## 🛠️ Configuration
 
-### Server Path Configuration
-The chatbot is configured to connect to the research server. If your server is in a different location, update the path in `mcp_chatbot.py`:
+### Server Configuration File
 
-```python
-server_params = StdioServerParameters(
-    command="python",
-    args=["/path/to/your/research-mcp-server/research_server.py"],
-    env=None,
-)
+Create a `server_config.json` file to define your MCP servers:
+
+```json
+{
+  "mcpServers": {
+    "research-server": {
+      "command": "python",
+      "args": ["/path/to/research-mcp-server/research_server.py"],
+      "env": null
+    },
+    "filesystem-server": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/allowed/directory"],
+      "env": null
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}
 ```
 
+### Available MCP Servers
+
+Popular MCP servers you can integrate:
+
+- **Research Server** - Academic paper search and analysis
+- **Filesystem Server** - File and directory operations
+- **Brave Search** - Web search capabilities
+- **SQLite Server** - Database query and management
+- **Git Server** - Git repository operations
+- **Slack Server** - Slack integration and messaging
+- **Google Drive Server** - Google Drive file access
+
 ### Environment Variables
+
 Required environment variables in `.env`:
 - `ANTHROPIC_API_KEY` - Your Anthropic API key
 
+Optional environment variables for specific servers:
+- `BRAVE_API_KEY` - For Brave search functionality
+- `GOOGLE_APPLICATION_CREDENTIALS` - For Google services
+- Other API keys as required by your chosen servers
+
 ## 🐛 Troubleshooting
 
+### Configuration Issues
+- ✅ Ensure `server_config.json` exists and is valid JSON
+- ✅ Check that all server paths and commands are correct
+- ✅ Verify required environment variables are set
+
 ### Connection Issues
-- ✅ Ensure the research server path is correct
-- ✅ Make sure the research server can run independently
-- ✅ Check that all server dependencies are installed
+- ✅ Test each server independently before adding to configuration
+- ✅ Check server dependencies are installed (Node.js for npx servers)
+- ✅ Verify file paths and permissions
 
 ### API Issues
 - ✅ Verify your `ANTHROPIC_API_KEY` is set correctly in `.env`
 - ✅ Ensure you have sufficient API credits
-- ✅ Check your internet connection
+- ✅ Check your internet connection for web-based servers
 
 ### Tool Errors
-- ✅ Check the research server logs for detailed error information
-- ✅ Verify the tool arguments match the expected schema
-- ✅ Ensure the research server is running and accessible
+- ✅ Check individual server logs for detailed error information
+- ✅ Verify tool arguments match expected schemas
+- ✅ Ensure all required API keys are configured
 
 ### Common Solutions
 ```bash
 # Reinstall dependencies
 uv sync
 
-# Check if server runs independently
-cd /path/to/research-mcp-server
-python research_server.py
+# Test server configuration
+python -c "import json; print(json.load(open('server_config.json')))"
+
+# Check individual server
+npx @modelcontextprotocol/inspector python /path/to/server.py
 
 # Verify API key
 echo $ANTHROPIC_API_KEY
@@ -135,16 +208,24 @@ echo $ANTHROPIC_API_KEY
 
 ## 🔄 Development
 
+### Adding New Servers
+1. Install the MCP server following its documentation
+2. Add server configuration to `server_config.json`
+3. Test the server independently
+4. Restart the chatbot to discover new tools
+
 ### Making Changes
 1. Edit `mcp_chatbot.py` for core functionality
-2. Update `pyproject.toml` for dependencies
-3. Test with your research server
-4. Update documentation as needed
+2. Update `server_config.json` for server configurations
+3. Update `pyproject.toml` for dependencies
+4. Test with your configured servers
+5. Update documentation as needed
 
-### Adding New Features
-- The chatbot automatically discovers new tools from the MCP server
+### Server Development
+- The chatbot automatically discovers new tools from any server
 - No client-side changes needed when server tools are updated
 - Focus on improving the chat interface and error handling
+- Consider server-specific error handling for better user experience
 
 ## 📦 Dependencies
 
@@ -161,23 +242,28 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+3. Make your changes and test with multiple servers
+4. Ensure configuration examples are updated
+5. Commit your changes (`git commit -m 'Add some amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
 ## 🙏 Acknowledgments
 
 - [Anthropic](https://www.anthropic.com/) for Claude AI
-- [Model Context Protocol](https://modelcontextprotocol.io/) for the MCP framework
+- [Model Context Protocol](https://modelcontextprotocol.io/) for the excellent framework
+- [MCP Community](https://github.com/modelcontextprotocol) for server implementations
 - [arXiv](https://arxiv.org/) for providing access to research papers
 
 ## 📞 Support
 
 If you encounter any issues or have questions:
 1. Check the [Troubleshooting](#-troubleshooting) section
-2. Look at existing [Issues](https://github.com/spalit2025/research-mcp-client/issues)
-3. Create a new issue with detailed information about your problem
+2. Review your `server_config.json` configuration
+3. Test individual servers with MCP Inspector
+4. Look at existing [Issues](https://github.com/spalit2025/research-mcp-client/issues)
+5. Create a new issue with detailed information about your problem
 
 ---
 
-**Happy researching! 🔬✨** 
+**Happy exploring with multiple MCP servers! 🚀✨** 
