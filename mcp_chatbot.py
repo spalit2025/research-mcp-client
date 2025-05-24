@@ -34,6 +34,11 @@ class MCP_ChatBot:
         self.available_tools: List[ToolDefinition] = []
         self.tool_to_session: Dict[str, ClientSession] = {}
         
+        # New: Add support for prompts and resources
+        self.available_prompts: List[Dict] = []
+        self.prompt_to_session: Dict[str, ClientSession] = {}
+        self.resource_to_session: Dict[str, ClientSession] = {}
+        
         # Validate API key
         if not os.getenv("ANTHROPIC_API_KEY"):
             raise ValueError("ANTHROPIC_API_KEY not found in environment variables. Please check your .env file.")
@@ -69,6 +74,34 @@ class MCP_ChatBot:
                     "description": tool.description,
                     "input_schema": tool.inputSchema
                 })
+            
+            # List available prompts
+            try:
+                prompts_response = await session.list_prompts()
+                if prompts_response and prompts_response.prompts:
+                    print(f"📝 Found {len(prompts_response.prompts)} prompts:")
+                    for prompt in prompts_response.prompts:
+                        print(f"  • {prompt.name}: {prompt.description}")
+                        self.prompt_to_session[prompt.name] = session
+                        self.available_prompts.append({
+                            "name": prompt.name,
+                            "description": prompt.description,
+                            "arguments": prompt.arguments
+                        })
+            except Exception as e:
+                print(f"  ⚠️  No prompts available from {server_name}")
+            
+            # List available resources
+            try:
+                resources_response = await session.list_resources()
+                if resources_response and resources_response.resources:
+                    print(f"📚 Found {len(resources_response.resources)} resources:")
+                    for resource in resources_response.resources:
+                        resource_uri = str(resource.uri)
+                        print(f"  • {resource_uri}: {resource.name}")
+                        self.resource_to_session[resource_uri] = session
+            except Exception as e:
+                print(f"  ⚠️  No resources available from {server_name}")
                 
         except Exception as e:
             print(f"❌ Failed to connect to {server_name}: {e}")
@@ -101,7 +134,10 @@ class MCP_ChatBot:
                 print("❌ No tools available from any server")
                 raise RuntimeError("No tools available from any server")
                 
-            print(f"\n🎉 Successfully connected! Total tools available: {len(self.available_tools)}")
+            print(f"\n🎉 Successfully connected! Total capabilities:")
+            print(f"  🛠️  Tools: {len(self.available_tools)}")
+            print(f"  📝 Prompts: {len(self.available_prompts)}")
+            print(f"  📚 Resources: {len(self.resource_to_session)}")
             
         except Exception as e:
             print(f"❌ Error loading server configuration: {e}")
@@ -195,17 +231,114 @@ class MCP_ChatBot:
         except Exception as e:
             print(f"❌ Error processing query: {str(e)}")
 
+    async def get_resource(self, resource_uri: str) -> None:
+        """Retrieve and display a resource from an MCP server."""
+        session = self.resource_to_session.get(resource_uri)
+        
+        # Fallback for papers URIs - try any papers resource session
+        if not session and resource_uri.startswith("papers://"):
+            for uri, sess in self.resource_to_session.items():
+                if uri.startswith("papers://"):
+                    session = sess
+                    break
+            
+        if not session:
+            print(f"❌ Resource '{resource_uri}' not found.")
+            return
+        
+        try:
+            print(f"📚 Fetching resource: {resource_uri}")
+            result = await session.read_resource(uri=resource_uri)
+            if result and result.contents:
+                print(f"\n📄 Resource: {resource_uri}")
+                print("Content:")
+                for content in result.contents:
+                    if hasattr(content, 'text'):
+                        print(content.text)
+                    else:
+                        print(str(content))
+            else:
+                print("No content available.")
+        except Exception as e:
+            print(f"❌ Error reading resource: {e}")
+    
+    async def list_prompts(self) -> None:
+        """List all available prompts."""
+        if not self.available_prompts:
+            print("📝 No prompts available.")
+            return
+        
+        print(f"\n📝 Available prompts ({len(self.available_prompts)}):")
+        for prompt in self.available_prompts:
+            print(f"  • {prompt['name']}: {prompt['description']}")
+            if prompt['arguments']:
+                print(f"    Arguments:")
+                for arg in prompt['arguments']:
+                    arg_name = arg.name if hasattr(arg, 'name') else arg.get('name', '')
+                    arg_desc = arg.description if hasattr(arg, 'description') else arg.get('description', '')
+                    print(f"      - {arg_name}: {arg_desc}")
+    
+    async def execute_prompt(self, prompt_name: str, args: Dict[str, str]) -> None:
+        """Execute a prompt with the given arguments."""
+        session = self.prompt_to_session.get(prompt_name)
+        if not session:
+            print(f"❌ Prompt '{prompt_name}' not found.")
+            return
+        
+        try:
+            print(f"🔧 Executing prompt '{prompt_name}' with args: {args}")
+            result = await session.get_prompt(prompt_name, arguments=args)
+            if result and result.messages:
+                prompt_content = result.messages[0].content
+                
+                # Extract text from content (handles different formats)
+                if isinstance(prompt_content, str):
+                    text = prompt_content
+                elif hasattr(prompt_content, 'text'):
+                    text = prompt_content.text
+                else:
+                    # Handle list of content items
+                    text = " ".join(item.text if hasattr(item, 'text') else str(item) 
+                                  for item in prompt_content)
+                
+                print(f"\n📝 Prompt '{prompt_name}' generated query:")
+                print(f"'{text}'\n")
+                await self.process_query(text)
+        except Exception as e:
+            print(f"❌ Error executing prompt: {e}")
+
     async def chat_loop(self) -> None:
         """Run an interactive chat loop."""
         print("\n🤖 Multi-Server MCP Chatbot Started!")
         print("Ask me anything, and I'll use tools from all connected servers to help you.")
         print("Type 'quit' to exit.\n")
         
-        # Show available tools summary
+        # Show enhanced help information
+        print("💡 Special Commands:")
+        print("  • @<resource>     - Access resources (e.g., @folders, @topic)")
+        print("  • /prompts        - List available prompt templates")
+        print("  • /prompt <name>  - Execute a prompt template")
+        print("  • quit/exit/q     - Exit the chatbot\n")
+        
+        # Show available capabilities summary
         if self.available_tools:
             print("🛠️  Available tools:")
             for tool in self.available_tools:
                 print(f"  • {tool['name']}: {tool['description']}")
+            print()
+        
+        if self.available_prompts:
+            print("📝 Available prompts:")
+            for prompt in self.available_prompts:
+                print(f"  • {prompt['name']}: {prompt['description']}")
+            print()
+        
+        if self.resource_to_session:
+            print("📚 Available resources:")
+            for resource_uri in list(self.resource_to_session.keys())[:5]:  # Show first 5
+                print(f"  • {resource_uri}")
+            if len(self.resource_to_session) > 5:
+                print(f"  ... and {len(self.resource_to_session) - 5} more")
             print()
         
         while True:
@@ -218,6 +351,44 @@ class MCP_ChatBot:
                 
                 if not query:
                     print("Please enter a query.")
+                    continue
+                
+                # Check for @resource syntax first
+                if query.startswith('@'):
+                    # Remove @ sign  
+                    topic = query[1:]
+                    if topic == "folders":
+                        resource_uri = "papers://folders"
+                    else:
+                        resource_uri = f"papers://{topic}"
+                    await self.get_resource(resource_uri)
+                    continue
+                
+                # Check for /command syntax
+                if query.startswith('/'):
+                    parts = query.split()
+                    command = parts[0].lower()
+                    
+                    if command == '/prompts':
+                        await self.list_prompts()
+                    elif command == '/prompt':
+                        if len(parts) < 2:
+                            print("Usage: /prompt <name> <arg1=value1> <arg2=value2>")
+                            continue
+                        
+                        prompt_name = parts[1]
+                        args = {}
+                        
+                        # Parse arguments
+                        for arg in parts[2:]:
+                            if '=' in arg:
+                                key, value = arg.split('=', 1)
+                                args[key] = value
+                        
+                        await self.execute_prompt(prompt_name, args)
+                    else:
+                        print(f"❌ Unknown command: {command}")
+                        print("Available commands: /prompts, /prompt")
                     continue
                 
                 await self.process_query(query)
