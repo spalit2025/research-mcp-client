@@ -8,8 +8,10 @@ A Claude AI chatbot with advanced MCP (Model Context Protocol) integration that 
 - 🔧 **Multi-Server MCP Integration** - Connect to multiple MCP servers simultaneously
 - 📚 **Research & Analysis** - Search arXiv, analyze papers, and access academic resources
 - 🗂️ **File System Access** - Read, write, and manage files through MCP servers
-- 🌐 **Web Search** - Access real-time information through search APIs
+- 🌐 **Web Content Fetching** - Fetch and analyze web content with HTTP requests
 - 🗄️ **Database Operations** - Query and manage databases via MCP tools
+- 📝 **Prompt Templates** - Execute predefined prompts with custom arguments
+- 📚 **Resource Access** - Access structured resources from MCP servers
 - 🎯 **Intelligent Tool Selection** - Claude automatically chooses the best tools for each task
 - ⚡ **Async Performance** - Fast, responsive interactions across all servers
 - 🛡️ **Robust Error Handling** - Graceful handling of server failures and tool errors
@@ -90,6 +92,18 @@ The chatbot can now handle diverse tasks across multiple domains:
 📝 Query: Fetch web content and save it to a local file for analysis
 ```
 
+### Special Commands
+```
+# Resource Access
+@folders                        # List available research folders
+@machine_learning              # Access ML papers resource
+
+# Prompt Templates
+/prompts                       # List all available prompt templates
+/prompt generate_search_prompt topic=AI    # Execute prompt with arguments
+/prompt fetch url=https://example.com      # Execute fetch prompt
+```
+
 ### Commands
 - Type your queries naturally - Claude will choose the appropriate tools
 - Use `quit`, `exit`, or `q` to exit
@@ -113,10 +127,11 @@ research-mcp-client/
 
 1. **Configuration Loading** - Reads server configurations from `server_config.json`
 2. **Multi-Server Connection** - Establishes connections to all configured MCP servers
-3. **Tool Discovery** - Automatically discovers and aggregates tools from all servers
-4. **Query Processing** - User queries are processed by Claude AI with access to all available tools
-5. **Intelligent Routing** - Claude selects the appropriate server and tool for each task
-6. **Response Integration** - Results from multiple tools are seamlessly integrated into responses
+3. **Capability Discovery** - Automatically discovers tools, prompts, and resources from all servers
+4. **Query Processing** - User queries are processed by Claude AI with access to all available capabilities
+5. **Intelligent Routing** - Claude selects the appropriate server and capability for each task
+6. **Special Commands** - Handle resource access (`@`) and prompt execution (`/`) commands
+7. **Response Integration** - Results from multiple tools are seamlessly integrated into responses
 
 ## 🛠️ Configuration
 
@@ -175,12 +190,14 @@ Popular MCP servers you can integrate:
 
 The project includes a working configuration with these servers:
 
-1. **Research Server** (2 tools)
-   - `search_papers` - Search arXiv papers by topic
-   - `extract_info` - Extract information about specific papers
+1. **Research Server** (2 tools, 1 prompt, 1 resource)
+   - **Tools**: `search_papers`, `extract_info` - Search and analyze arXiv papers
+   - **Prompts**: `generate_search_prompt` - Generate academic search prompts
+   - **Resources**: `papers://folders` - Access research paper folders
 
-2. **Fetch Server** (1 tool)
-   - `fetch` - Fetch web content and convert to markdown
+2. **Fetch Server** (1 tool, 1 prompt)
+   - **Tools**: `fetch` - Fetch web content and convert to markdown
+   - **Prompts**: `fetch` - Execute URL fetching with prompt templates
 
 3. **Filesystem Server** (11 tools)
    - `read_file`, `write_file`, `edit_file` - File operations
@@ -189,7 +206,7 @@ The project includes a working configuration with these servers:
    - `search_files`, `get_file_info` - File discovery
    - `read_multiple_files`, `list_allowed_directories` - Batch operations
 
-**Total: 14 tools available across 3 servers**
+**Total: 14 tools, 2 prompts, 1 resource across 3 servers**
 
 ### Environment Variables
 
@@ -200,6 +217,33 @@ Optional environment variables for specific servers:
 - `BRAVE_API_KEY` - For Brave search functionality
 - `GOOGLE_APPLICATION_CREDENTIALS` - For Google services
 - Other API keys as required by your chosen servers
+
+## 🎯 Enhanced Interface
+
+The chatbot now supports advanced MCP capabilities beyond just tools:
+
+### Special Command Syntax
+- **`@<resource>`** - Access MCP resources directly
+  - `@folders` - List available research folders
+  - `@machine_learning` - Access specific topic resources
+  
+- **`/prompts`** - List all available prompt templates
+- **`/prompt <name> <args>`** - Execute prompt templates with arguments
+  - `/prompt generate_search_prompt topic=AI` - Generate AI research prompts
+  - `/prompt fetch url=https://example.com` - Execute fetch with prompts
+
+### Startup Information
+When you start the chatbot, you'll see:
+- 🛠️ **Available tools** from all connected servers
+- 📝 **Available prompts** for template-based queries  
+- 📚 **Available resources** for structured data access
+- 💡 **Special commands** help and syntax guide
+
+### Interactive Features
+- **Natural language queries** - Ask anything, Claude chooses the right tools
+- **Multi-step workflows** - Combine tools across different servers
+- **Resource exploration** - Browse and access structured data
+- **Template execution** - Use predefined prompts with custom parameters
 
 ## 🐛 Troubleshooting
 
