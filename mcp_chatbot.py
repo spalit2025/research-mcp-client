@@ -149,12 +149,12 @@ class MCP_ChatBot:
         
         try:
             response = self.anthropic.messages.create(
-                max_tokens=2024,
-                model='claude-3-5-sonnet-20241022',
+                max_tokens=4096,
+                model='claude-sonnet-4-5-20250514',
                 tools=self.available_tools,
                 messages=messages
             )
-            
+
             process_query = True
             while process_query:
                 assistant_content = []
@@ -218,8 +218,8 @@ class MCP_ChatBot:
                         
                         # Get the next response from Claude
                         response = self.anthropic.messages.create(
-                            max_tokens=2024,
-                            model='claude-3-5-sonnet-20241022',
+                            max_tokens=4096,
+                            model='claude-sonnet-4-5-20250514',
                             tools=self.available_tools,
                             messages=messages
                         )
